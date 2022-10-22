@@ -1,4 +1,5 @@
 import React from 'react';
+import { Badge } from 'react-bootstrap';
 import { useLoaderData } from 'react-router-dom';
 import NewsSummaryCard from '../../Shared/NewsSummaryCard/NewsSummaryCard';
 
@@ -7,7 +8,7 @@ const Category = () => {
     // console.log(newsCategory)
     return (
         <div>
-            <h5>News Of Category {newsCategory.length}</h5>
+            <h5>News Of Category <Badge bg="primary">{newsCategory.length}</Badge></h5>
             {
                 newsCategory.map(news => <NewsSummaryCard
                     key={news._id}

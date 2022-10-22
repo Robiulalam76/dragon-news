@@ -1,34 +1,64 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../ContextAPI/AuthProvider';
+import toast from 'react-hot-toast';
 
 const Register = () => {
-    const { registerWithEmailPassword } = useContext(AuthContext)
+    const { userEmailVerify, registerWithEmailPassword, updateUserProfile } = useContext(AuthContext)
+    const [error, setError] = useState('')
+    const [accepted, setAccepted] = useState(false)
     const navigate = useNavigate()
 
     const handleRegister = (event) => {
         event.preventDefault()
         const name = event.target.name.value
-        const imageUrl = event.target.imageUrl.value
+        const imageURL = event.target.imageURL.value
         const email = event.target.email.value
         const password = event.target.password.value
-        console.log(name, imageUrl, email, password)
+        console.log(name, imageURL, email, password)
 
         registerWithEmailPassword(email, password)
             .then((result) => {
                 const user = result.user
                 console.log(user)
                 navigate('/login')
+                handleUpadateProfile(name, imageURL)
+                handleEmailVerify()
             })
-            .then((error) => {
+            .catch((error) => {
                 console.error(error)
+                setError(error.message)
             })
     }
 
+    const handleEmailVerify = () => {
+        userEmailVerify()
+            .then((result) => {
+                console.log(result);
+                toast.success('Please Your Verify Email Address')
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+    }
+
+
+    const handleUpadateProfile = (name, photoURL) => {
+        const profile = {
+            displayName: name,
+            photoURL: photoURL
+        }
+        updateUserProfile(profile)
+    }
+
+    const handleAccepted = event => {
+        setAccepted(event.target.checked)
+    }
+
     return (
-        <div>
+        <div className='p-5 shadow rounded my-3 login-register'>
             <Form onSubmit={handleRegister}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Your Full Name</Form.Label>
@@ -36,7 +66,7 @@ const Register = () => {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Your Image URL</Form.Label>
-                    <Form.Control name='imageUrl' type="text" placeholder="Enter Your image URL" required />
+                    <Form.Control name='imageURL' type="text" placeholder="Enter Your image URL" required />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
@@ -45,12 +75,18 @@ const Register = () => {
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
                     <Form.Control name='password' type="password" placeholder="Password" />
-                    <Form.Text className="text-muted">
-                        We'll never share your email with anyone else.
+                    <Form.Text className="text-danger">
+                        {error?.slice(10)}
                     </Form.Text>
                 </Form.Group>
-                <Button variant="primary" type="submit">
-                    Submit
+                <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                    <Form.Check
+                        type="checkbox"
+                        onClick={handleAccepted}
+                        label={<>Accept <Link to="/terms">Terms and conditions</Link></>} />
+                </Form.Group>
+                <Button variant="primary" type="submit" disabled={!accepted}>
+                    Register
                 </Button>
             </Form>
         </div>

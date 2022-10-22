@@ -2,7 +2,7 @@ import { GoogleAuthProvider } from 'firebase/auth';
 import React, { useContext } from 'react';
 import { Button, ButtonGroup, ListGroup } from 'react-bootstrap';
 import { FaGoogle, FaGithub, FaTwitch, FaTwitter, FaFacebook, FaLinkedin, FaDribbble } from 'react-icons/fa';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../ContextAPI/AuthProvider';
 import BrandCarousel from '../BrandCarousel/BrandCarousel';
 
@@ -33,11 +33,11 @@ const RightSideNav = () => {
             <div className='mt-4'>
                 <p>Find Us On</p>
                 <ListGroup>
-                    <ListGroup.Item className='mb-3'><FaFacebook /> Facebook</ListGroup.Item>
-                    <ListGroup.Item className='mb-3'><FaTwitter /> Twitter</ListGroup.Item>
-                    <ListGroup.Item className='mb-3'><FaTwitch /> Twitch</ListGroup.Item>
-                    <ListGroup.Item className='mb-3'><FaLinkedin /> LinkedIn</ListGroup.Item>
-                    <ListGroup.Item className='mb-3'><FaDribbble /> Dribbble</ListGroup.Item>
+                    <ListGroup.Item className='mb-3'><a target="_blank" className='text-decoration-none' href="https://web.facebook.com/Robiulalam76/"><FaFacebook /> Facebook</a></ListGroup.Item>
+                    <ListGroup.Item className='mb-3'><a target="_blank" className='text-decoration-none' href="#"><FaTwitter /> Twitter</a></ListGroup.Item>
+                    <ListGroup.Item className='mb-3'><a target="_blank" className='text-decoration-none' href="#"><FaTwitch /> Twitch</a></ListGroup.Item>
+                    <ListGroup.Item className='mb-3'><a target="_blank" className='text-decoration-none' href="https://www.linkedin.com/in/robiulalam762/"><FaLinkedin /> LinkedIn</a></ListGroup.Item>
+                    <ListGroup.Item className='mb-3'><a target="_blank" className='text-decoration-none' href="#"><FaDribbble /> Dribbble</a></ListGroup.Item>
                 </ListGroup>
             </div>
             <div>
